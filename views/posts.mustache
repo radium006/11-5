@@ -1,0 +1,30 @@
+<html>
+<head></head>
+<body>
+    
+     <div>
+        <a href="/posts">View All Posts</a>
+        <a href="/posts/new">Add New Post</a>
+    </div>
+    
+    <h1>Kevin's Blog</h1>
+    
+    {{#blogposts}}
+    <ul>
+    
+        <li>
+            <h2>{{blogtitle}}</h2>
+            <p>{{blogdate}}</p>
+            <p>{{blogentry}}</p>
+            <form action="/delete" method="POST">
+                <input type="hidden" name="blogid" value="{{blogid}}">
+                <input type="submit" value="Delete Post">
+            </form>
+            <a href="/posts/update/{{blogid}}">Edit</a>
+        </li>
+    
+    </ul>
+    {{/blogposts}}
+
+</body>
+</html>

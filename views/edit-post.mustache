@@ -1,0 +1,19 @@
+<html>
+<head></head>
+<body>
+    <div>
+        <a href="/posts">View All Posts</a>
+        <a href="/posts/new">Add New Post</a>
+    </div>
+    <h1>Edit Post</h1>
+    
+    <form action="/editpost" method="POST">
+        <input type="date" name="date" value="{{blogdate}}">
+        <input type="text" name="title" value="{{blogtitle}}"> 
+        <input type="text" name="entry" value="{{blogentry}}"> 
+        <input type="hidden" name="blogid" value="{{blogid}}">
+        <input type="submit">
+    </form>
+    
+</body>
+</html>
