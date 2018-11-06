@@ -1,24 +1,35 @@
 <html>
-<head></head>
+<head>
+    <link rel="stylesheet" type="text/css" href="/site.css"/>
+</head>
 <body>
     
-     <div>
+     <div id = "nav">
         <a href="/posts">View All Posts</a>
         <a href="/posts/new">Add New Post</a>
+        <form action="/logout" method="POST">
+            <input type="hidden" name="account" value="{{username}}">
+            <input type="submit" value="Log Out">
+        </form>
     </div>
     
-    <h1>Kevin's Blog</h1>
+    <h1>Welcome {{username}} to the Blogsite</h1>
     
     {{#blogposts}}
     <ul>
     
         <li>
             <h2>{{blogtitle}}</h2>
+            <h4>Posted by: {{blogauthor}}</h4>
             <p>{{blogdate}}</p>
             <p>{{blogentry}}</p>
             <form action="/delete" method="POST">
                 <input type="hidden" name="blogid" value="{{blogid}}">
                 <input type="submit" value="Delete Post">
+            </form>
+            <form action="/comment" method="POST">
+                <input type="hidden" name="blogid" value="{{blogid}}">
+                <input type="submit" value="Add comment">
             </form>
             <a href="/posts/update/{{blogid}}">Edit</a>
         </li>

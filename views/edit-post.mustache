@@ -1,9 +1,13 @@
 <html>
 <head></head>
 <body>
-    <div>
+    <div id = "nav">
         <a href="/posts">View All Posts</a>
         <a href="/posts/new">Add New Post</a>
+        <form action="/logout" method="POST">
+            <input type="hidden" name="account" value="{{username}}">
+            <input type="submit" value="Log Out">
+        </form>
     </div>
     <h1>Edit Post</h1>
     
