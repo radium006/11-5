@@ -4,9 +4,13 @@ const mustacheExpress = require('mustache-express')
 const bodyParser = require('body-parser')
 const pgp = require('pg-promise')()
 const connectionString = "postgres://localhost:5432/blogsdb"
+const Post = require('./models/blogpost')
+const Comments = require('./models/comments')
 app = express()
 var session = require('express-session')
 const db = pgp(connectionString)
+
+let blogs = []
 
 app.use(bodyParser.urlencoded({
     extended: false
@@ -28,7 +32,7 @@ let users = [{
 }]
 
 
-app.post('/delete', function (req, res) {
+app.post('/delete', function (req, res){
     let blogid = req.body.blogid
 
     db.none('DELETE FROM blogposts WHERE blogid = $1;', [blogid]).then(function () {
@@ -49,13 +53,41 @@ app.post('/editpost', function (req, res) {
     console.log(date)
     console.log(entry)
     console.log(blogid)
-    db.none('UPDATE blogposts SET blogtitle = $1, blogentry = $2, blogdate = $3 WHERE blogid = $4', [title, entry, date, blogid])
+    db.none('UPDATE blogposts SET blogtitle = $1, blogentry = $2, blogdate = $3 giotERE blogid = $4', [title, entry, date, blogid])
         .then(function () {
             res.redirect("/posts")
         })
         .catch(function (error) {
             console.log(error)
         })
+
+})
+
+app.post('/addComment', function(req, res){
+    let blogid = req.body.blogid
+    console.log(blogid)
+    let comment = req.body.comment
+    db.none("INSERT INTO blogcomments(commententry, blogid) VALUES($1, $2)", [comment, blogid])
+    .then(function(){
+        res.redirect('/posts')
+    })
+})
+
+app.get('/posts/addcomment/:blogid', function(req, res){
+    let blogids = req.params.blogid
+    console.log("made it here")
+    db.any('SELECT blogposts.blogid, blogdate, blogtitle, blogentry, blogauthor, blogcomments.commententry FROM blogposts JOIN blogcomments ON blogposts.blogid = blogcomments.blogid WHERE blogcomments.blogid = $1;', [blogids])
+    .then(function (result) {
+       
+       db.one('SELECT blogid, blogdate, blogtitle, blogentry, blogauthor FROM blogposts WHERE blogid = $1', [blogids])
+       .then(function(blog){
+           console.log(blog)
+           console.log(result)
+           res.render('add-comment', {blog, result})
+       })
+
+        
+    })
 
 })
 

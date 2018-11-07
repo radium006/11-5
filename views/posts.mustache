@@ -27,11 +27,9 @@
                 <input type="hidden" name="blogid" value="{{blogid}}">
                 <input type="submit" value="Delete Post">
             </form>
-            <form action="/comment" method="POST">
-                <input type="hidden" name="blogid" value="{{blogid}}">
-                <input type="submit" value="Add comment">
-            </form>
+            
             <a href="/posts/update/{{blogid}}">Edit</a>
+            <a href="/posts/addcomment/{{blogid}}">Add Comment</a>
         </li>
     
     </ul>
